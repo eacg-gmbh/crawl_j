@@ -33,6 +33,8 @@ public class Main {
         String package_name = getParam(args, 3);
 
         MongoDB mongoDB = (MongoDB) context.getBean("mongoDb");
+        mongoDB.setUsername("veuser");
+        mongoDB.setPassword("veecs");
         mongoDB.initDB();
 
         execute( crawler, package_name );

@@ -1,5 +1,6 @@
 FROM        java:8
 MAINTAINER  Robert Reiz <reiz@versioneye.com>
+#crawlj_worker image!!
 
 ENV RAILS_ENV enterprise
 ENV M2_HOME /opt/mvn

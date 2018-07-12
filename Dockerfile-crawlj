@@ -1,0 +1,34 @@
+FROM        java:8
+MAINTAINER  Robert Reiz <reiz@versioneye.com>
+#crawlj_worker image!!
+
+ENV RAILS_ENV enterprise
+
+RUN  mkdir -p /opt && \
+     wget -O /opt/apache-maven-3.0.5-bin.tar.gz http://mirror.arcor-online.net/www.apache.org/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz && \
+     cd /opt/; tar -xzf apache-maven-3.0.5-bin.tar.gz && \
+     wget -O /opt/apache-maven-3.3.9-bin.tar.gz http://apache.lauf-forum.at/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz && \
+     cd /opt/; tar -xzf apache-maven-3.3.9-bin.tar.gz &&  \
+     ln -f -s /opt/apache-maven-3.3.9 /opt/mvn
+
+ENV M2_HOME /opt/mvn
+ENV M2 /opt/mvn/bin
+ENV PATH $PATH:/opt/mvn/bin
+ENV MAVEN_OPTS -Djava.net.preferIPv4Stack=true
+
+RUN mkdir -p /mnt/crawl_j; mkdir -p /mnt/crawl_indexes; mkdir -p /mnt/maven-indexer
+
+ADD . /mnt/crawl_j
+RUN cd /mnt/crawl_j; /opt/mvn/bin/mvn clean install -Dmaven.test.skip=true
+
+RUN git clone git@github.com:eacg-gmbh/maven-indexer.git
+ADD maven-indexer /mnt/maven-indexer
+ADD mongo.properties /mnt/maven-indexer/src/main/resources/mongo.properties
+ADD settings.properties /mnt/maven-indexer/src/main/resources/settings.properties
+RUN cd /mnt/maven-indexer; /opt/mvn/bin/mvn clean install -Dmaven.test.skip=true -Dgpg.skip
+
+RUN apt-get update && apt-get -y install cron
+RUN touch /var/log/cron.log && touch /var/log/syslog
+
+ADD file /etc/pam.d/cron
+CMD ["/bin/sh" "-c" "/mnt/crawl_j/run_enterprise.sh"]
