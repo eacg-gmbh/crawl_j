@@ -14,7 +14,7 @@ RUN mkdir -p /opt; \
     wget -O /opt/apache-maven-3.3.9-bin.tar.gz http://apache.lauf-forum.at/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz; \
     cd /opt/; tar -xzf apache-maven-3.3.9-bin.tar.gz; \
     ln -f -s /opt/apache-maven-3.3.9 /opt/mvn; \
-    mkdir -p /mnt/crawl_j; \
+    mkdir -p /mnt/crawl_j; cd / \
     cp mongo.properties    /mnt/crawl_j/j_versioneye_persistence/src/test/resources/mongo.properties; \
     cp mongo.properties    /mnt/crawl_j/j_versioneye_service/src/test/resources/mongo.properties; \
     cp mongo.properties    /mnt/crawl_j/jcrawler/src/test/resources/mongo.properties; \
