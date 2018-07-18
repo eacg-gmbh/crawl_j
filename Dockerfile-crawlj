@@ -1,6 +1,6 @@
 FROM        java:8
 MAINTAINER  Robert Reiz <reiz@versioneye.com>
-#crawlj_worker image!!
+#crawlj image!!
 
 ENV RAILS_ENV enterprise
 
@@ -10,6 +10,14 @@ RUN  mkdir -p /opt && \
      wget -O /opt/apache-maven-3.3.9-bin.tar.gz http://apache.lauf-forum.at/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz && \
      cd /opt/; tar -xzf apache-maven-3.3.9-bin.tar.gz &&  \
      ln -f -s /opt/apache-maven-3.3.9 /opt/mvn
+
+# Install the AWS CLI
+RUN apt-get update && apt-get -y install python python-dev python-pip python-setuptools groff less curl zip unzip && cd /tmp && \
+    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" \
+    -o "awscli-bundle.zip" && \
+    unzip awscli-bundle.zip && \
+    ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
+    rm awscli-bundle.zip && rm -rf awscli-bundle
 
 ENV M2_HOME /opt/mvn
 ENV M2 /opt/mvn/bin
