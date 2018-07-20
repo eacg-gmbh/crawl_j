@@ -50,6 +50,7 @@ public class MongoDB {
 
         try {
             Mongo mongo = null;
+            String mongoConnectURI = System.getenv("DB_URI");
 
             username = System.getenv("DB_USERNAME");
             password = System.getenv("DB_PASSWD");
@@ -97,6 +98,15 @@ public class MongoDB {
             } else {
                 host2 = null;
                 host3 = null;
+            }
+
+            if (mongoConnectURI != null && !mongoConnectURI.isEmpty()) {
+                System.out.println("[MongoDB::initDB] MongoDB init from URL!!");
+                mongoConnectURI = mongoConnectURI + "/" + dbname + "?" + System.getenv("DB_OPTS");
+                MongoClientURI uri = new MongoClientURI(mongoConnectURI);
+                mongo = new MongoClient(uri);
+                db = mongo.getDB(dbname);
+                return;
             }
 
             MongoCredential mc = null;
