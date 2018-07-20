@@ -20,7 +20,8 @@ RUN apt-get update && apt-get -y install python python-dev python-pip python-set
     -o "awscli-bundle.zip" && \
     unzip awscli-bundle.zip && \
     ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
-    rm awscli-bundle.zip && rm -rf awscli-bundle
+    rm awscli-bundle.zip && rm -rf awscli-bundle \
+    echo "source /mnt/crawl_j/setcreds.sh\n" >> /etc/profile
 
 ADD . /mnt/crawl_j
 
