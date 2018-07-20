@@ -34,7 +34,8 @@ ADD settings.properties /mnt/crawl_j/versioneye_maven_crawler/src/main/resources
 RUN cd /mnt/crawl_j; /opt/mvn/bin/mvn clean install -Dmaven.test.skip=true -Dgpg.skip; \
     apt-get update && apt-get install -y supervisor; \
     mkdir -p /var/log/supervisor; \
-    cp supervisord.conf /etc/supervisor/conf.d/supervisord.conf;
+    cp supervisord.conf /etc/supervisor/conf.d/supervisord.conf; \
+    chmod +x /mnt/crawl_j/setcreds.sh /mnt/crawl_j/index-worker.sh /mnt/crawl_j/html-worker.sh
 
 WORKDIR /mnt/crawl_j
 
