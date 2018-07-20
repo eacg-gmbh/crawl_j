@@ -23,7 +23,6 @@ RUN apt-get update && apt-get -y install python python-dev python-pip python-set
     rm awscli-bundle.zip && rm -rf awscli-bundle
 
 ADD . /mnt/crawl_j
-ADD bashrc /root/.bashrc
 
 ADD mongo.properties /mnt/crawl_j/j_versioneye_persistence/src/test/resources/mongo.properties
 ADD mongo.properties /mnt/crawl_j/j_versioneye_service/src/test/resources/mongo.properties
