@@ -20,10 +20,10 @@ RUN apt-get update && apt-get -y install python python-dev python-pip python-set
     -o "awscli-bundle.zip" && \
     unzip awscli-bundle.zip && \
     ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws && \
-    rm awscli-bundle.zip && rm -rf awscli-bundle \
-    echo "source /mnt/crawl_j/setcreds.sh\n" >> /etc/profile
+    rm awscli-bundle.zip && rm -rf awscli-bundle
 
 ADD . /mnt/crawl_j
+ADD bashrc /root/.bashrc
 
 ADD mongo.properties /mnt/crawl_j/j_versioneye_persistence/src/test/resources/mongo.properties
 ADD mongo.properties /mnt/crawl_j/j_versioneye_service/src/test/resources/mongo.properties
