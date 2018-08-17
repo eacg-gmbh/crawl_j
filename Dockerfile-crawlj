@@ -38,5 +38,10 @@ RUN apt-get update && apt-get -y install cron
 RUN touch /var/log/cron.log && touch /var/log/syslog
 
 ADD cron /etc/pam.d/cron
+
+WORKDIR /mnt/crawl_j
+
 #CMD ["/bin/sh" "-c" "/mnt/crawl_j/run_enterprise.sh"]
 ENTRYPOINT ["/mnt/crawl_j/run_enterprise.sh"]
+
+

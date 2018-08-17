@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+export SECRETS_BUCKET_NAME=secrets.ve.eacg.de
 source /mnt/crawl_j/setcreds.sh
 
 export M2=/opt/apache-maven-3.0.5/bin
