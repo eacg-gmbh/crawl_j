@@ -35,4 +35,6 @@ echo "DB_PASSWD=$DB_PASSWD
 $(/bin/cat /mnt/crawl_j/crontab_enterprise)" > /mnt/crawl_j/crontab_enterprise
 
 /usr/bin/crontab /mnt/crawl_j/crontab_enterprise
-cron -f
+cron
+
+tail -f /var/log/cron.log
