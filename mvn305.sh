@@ -15,4 +15,4 @@ export DB_PORT_27017_TCP_PORT=27017
 export DB_PORT_27017_TCP_ADDR=db1.ve.eacg.intern
 export RAILS_ENV=enterprise
 
-/opt/apache-maven-3.0.5/bin/mvn -f $1 $2
+/opt/apache-maven-3.0.5/bin/mvn -f $1 $2  >> /var/log/cron.log 2>&1
