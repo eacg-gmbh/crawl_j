@@ -15,13 +15,13 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 00 1  * * * rm -Rf /mnt/crawl_indexes/*;
 
 # Crawlers rely on maven-index!
-14 1/1  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /dev/stdout 2>&1
-15 1/1  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:clojars >> /dev/stdout 2>&1
-18 1/1  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:nuxeo-public-releases >> /dev/stdout 2>&1
-15 3/1  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:jenkins >> /dev/stdout 2>&1
+14 */4  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /dev/stdout 2>&1
+15 */4  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:clojars >> /dev/stdout 2>&1
+18 */4  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:nuxeo-public-releases >> /dev/stdout 2>&1
+45 */4  * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:jenkins >> /dev/stdout 2>&1
 
 # Crawlers rely on the HTML interface!
-20 1/1  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:conjars >> /dev/stdout 2>&1
-24 1/1  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:redhat >> /dev/stdout 2>&1
-26 1/1  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:everpeace >> /dev/stdout 2>&1
-28 1/1  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:thenewmotion >> /dev/stdout 2>&1
+20 */4  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:conjars >> /dev/stdout 2>&1
+24 */4  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:redhat >> /dev/stdout 2>&1
+26 */4  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:everpeace >> /dev/stdout 2>&1
+28 */4  * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:thenewmotion >> /dev/stdout 2>&1
