@@ -15,7 +15,7 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 00 */4 * * * rm -rf /mnt/crawl_indexes/* >> /var/log/cron.log 2>&1
 
 # Crawlers rely on maven-index!
-* * * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /var/log/cron.log 2>&1
+14 */4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /var/log/cron.log 2>&1
 15 */4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:clojars >> /var/log/cron.log 2>&1
 18 */4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:nuxeo-public-releases >> /var/log/cron.log 2>&1
 45 */4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:jenkins >> /var/log/cron.log 2>&1
