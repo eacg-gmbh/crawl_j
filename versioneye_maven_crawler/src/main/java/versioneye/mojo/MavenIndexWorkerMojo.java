@@ -55,7 +55,7 @@ public class MavenIndexWorkerMojo extends AetherMojo {
                 }
             }
         } catch( Exception exception ){
-            exception.printStackTrace();
+            logger.error("MavenIndexWorkerMojo failed: " + exception.getMessage());
             logger.error(exception);
             throw new MojoExecutionException("Oh no! Something went wrong. Get in touch with the VersionEye guys and give them feedback.", exception);
         }
@@ -86,7 +86,7 @@ public class MavenIndexWorkerMojo extends AetherMojo {
 
             processGav(gav, releasedAt);
         } catch (Exception exception) {
-            exception.printStackTrace();
+            logger.error("MavenIndexWorkerMojo[processMessage] failed: " + exception.getMessage());
             logger.error(exception);
         }
     }
@@ -114,7 +114,8 @@ public class MavenIndexWorkerMojo extends AetherMojo {
                 releasedAt = new Date(new Long(lastModified));
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error("MavenIndexWorkerMojo[getReleasedDate] failed: " + ex.getMessage());
+            logger.error(ex);
         }
         return releasedAt;
     }
