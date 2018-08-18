@@ -115,7 +115,7 @@ public class HtmlMojo extends SuperMojo {
             }
         } catch (Exception ex) {
             logger.error("ERROR in HtmlMojo.getLinksFromPage(..) " + ex.toString());
-            logger.error(ex.getStackTrace());
+            logger.error(ex);
             return new ArrayList<String>();
         }
         return links;
@@ -174,7 +174,7 @@ public class HtmlMojo extends SuperMojo {
             logger.info(" [x] Sent '" + message + "'");
         } catch (Exception exception) {
             logger.error("urlToPom: " + urlToPom + " - " + exception.toString() );
-            logger.error(exception.getStackTrace());
+            logger.error(exception);
         }
     }
 
@@ -239,7 +239,7 @@ public class HtmlMojo extends SuperMojo {
             pomDao.create(urlToPom);
         } catch (Exception exception) {
             logger.error("urlToPom: " + urlToPom + " - " + exception.toString());
-            logger.error(exception.getStackTrace());
+            logger.error(exception);
         }
     }
 
@@ -259,7 +259,7 @@ public class HtmlMojo extends SuperMojo {
             channel = connection.createChannel();
         } catch (Exception exception){
             logger.error("ERROR in initTheRabbit - " + exception.toString());
-            logger.error(exception.getStackTrace());
+            logger.error(exception);
         }
     }
 
@@ -269,7 +269,7 @@ public class HtmlMojo extends SuperMojo {
             connection.close();
         } catch (Exception exception){
             logger.error("ERROR in closeTheRabbit - " + exception.toString());
-            logger.error(exception.getStackTrace());
+            logger.error(exception);
         }
     }
 
