@@ -53,6 +53,50 @@
             </snapshots>
         </repository>
         <repository>
+            <id>redhat.com</id>
+            <name>General availability repository for redhat.com</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>repo.spring.io</id>
+            <name>General availability releases for spring.io</name>
+            <url>https://repo.spring.io/release/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>plugins.spring.io</id>
+            <name>General availability plugin_releases for spring.io</name>
+            <url>https://repo.spring.io/plugins-release/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>milestone.spring.io</id>
+            <name>General availability plugin_releases for spring.io</name>
+            <url>https://repo.spring.io/milestone/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
             <id>conjars</id>
             <name>conjars</name>
             <url>http://conjars.org/repo</url>

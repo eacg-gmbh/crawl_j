@@ -155,25 +155,25 @@
 
     <bean id="servicemix" class="com.versioneye.domain.Repository" >
         <property name="name"     value="servicemix" />
-        <property name="src"      value="http://svn.apache.org/repos/asf/servicemix/m2-repo" />
+        <property name="src"      value="https://svn.apache.org/repos/asf/servicemix/m2-repo" />
         <property name="repoType" value="Maven2" />
     </bean>
 
     <bean id="springMilestone" class="com.versioneye.domain.Repository" >
         <property name="name"     value="springMilestone" />
-        <property name="src"      value="http://maven.springframework.org/milestone/" />
+        <property name="src"      value="https://maven.springframework.org/milestone/" />
         <property name="repoType" value="Maven2" />
     </bean>
 
     <bean id="springRelease" class="com.versioneye.domain.Repository" >
         <property name="name"     value="springRelease" />
-        <property name="src"      value="http://maven.springframework.org/release/" />
+        <property name="src"      value="https://maven.springframework.org/release/" />
         <property name="repoType" value="Maven2" />
     </bean>
 
     <bean id="spring_plugins" class="com.versioneye.domain.Repository" >
         <property name="name"     value="spring_plugins" />
-        <property name="src"      value="http://repo.spring.io/plugins-release/" />
+        <property name="src"      value="https://repo.spring.io/plugins-release/" />
         <property name="repoType" value="Maven2" />
     </bean>
 

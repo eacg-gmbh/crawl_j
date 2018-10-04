@@ -14,6 +14,11 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 # Clear Maven indexes / caches and force reload!
 0 4 * * * rm -rf /mnt/crawl_indexes/* >> /var/log/cron.log 2>&1
 
+# Daily crawlers for Ruby, Python and R
+11 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerRubyGems' >> /var/log/cron.log 2>&
+12 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerPythonPip' >> /var/log/cron.log 2>&
+13 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerR' >> /var/log/cron.log 2>&
+
 # Crawlers rely on maven-index!
 5 4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /var/log/cron.log 2>&1
 5 10 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:clojars >> /var/log/cron.log 2>&1
@@ -26,4 +31,9 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 26 20 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:everpeace >> /var/log/cron.log 2>&1
 28 22 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:thenewmotion >> /var/log/cron.log 2>&1
 
+# Crawler jCenter. Start on Monday and Wednesday!
+# 0 0 * * 1,4 /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:jcenter' >> /var/log/cron.log 2>&1
+
 # crontab requires an empty line at the end of the file
+
+
