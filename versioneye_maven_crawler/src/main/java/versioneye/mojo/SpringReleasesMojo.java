@@ -7,7 +7,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 
-@Mojo( name = "springMilestones", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
+@Mojo( name = "springReleases", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
 public class SpringReleasesMojo extends HtmlMojo {
 
     static final Logger logger = LogManager.getLogger(SpringReleasesMojo.class.getName());
