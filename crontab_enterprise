@@ -9,30 +9,30 @@ M2=/opt/mvn/bin
 MAVEN_OPTS=-Djava.net.preferIPv4Stack=true
 JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-* * * * * /bin/echo "VersionEye/EACG CrawlJ cron job is running" >> /var/log/cron.log 2>&1
+*/10 * * * * /bin/echo "VersionEye/EACG CrawlJ cron job is running" >> /var/log/cron.log 2>&1
 
 # Clear Maven indexes / caches and force reload!
-0 4 * * * rm -rf /mnt/crawl_indexes/* >> /var/log/cron.log 2>&1
+0 4 * * * rm -rf /mnt/crawl_indexes/* >> /dev/stdout 2>&1
 
 # Daily crawlers for Ruby, Python and R
-11 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerRubyGems' >> /var/log/cron.log 2>&
-12 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerPythonPip' >> /var/log/cron.log 2>&
-13 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerR' >> /var/log/cron.log 2>&
+11 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerRubyGems' >> /dev/stdout 2>&
+12 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerPythonPip' >> /dev/stdout 2>&
+13 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerR' >> /dev/stdout 2>&
 
 # Crawlers rely on maven-index!
-5 4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /var/log/cron.log 2>&1
-5 10 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:clojars >> /var/log/cron.log 2>&1
-5 12 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:nuxeo-public-releases >> /var/log/cron.log 2>&1
-5 14 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:jenkins >> /var/log/cron.log 2>&1
+5 4 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:central >> /dev/stdout 2>&1
+5 10 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:clojars >> /dev/stdout 2>&1
+5 12 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:nuxeo-public-releases >> /dev/stdout 2>&1
+5 14 * * * /mnt/crawl_j/mvn305.sh /mnt/maven-indexer/pom.xml crawl:jenkins >> /dev/stdout 2>&1
 
 # Crawlers rely on the HTML interface!
-20 16 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:conjars >> /var/log/cron.log 2>&1
-24 18 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:redhat >> /var/log/cron.log 2>&1
-26 20 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:everpeace >> /var/log/cron.log 2>&1
-28 22 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:thenewmotion >> /var/log/cron.log 2>&1
+20 16 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:conjars >> /dev/stdout 2>&1
+24 18 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:redhat >> /dev/stdout 2>&1
+26 20 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:everpeace >> /dev/stdout 2>&1
+28 22 * * * /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:thenewmotion >> /dev/stdout 2>&1
 
 # Crawler jCenter. Start on Monday and Wednesday!
-# 0 0 * * 1,4 /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:jcenter' >> /var/log/cron.log 2>&1
+# 0 0 * * 1,4 /mnt/crawl_j/mvn.sh /mnt/crawl_j/versioneye_maven_crawler/pom.xml crawl:jcenter' >> /dev/stdout 2>&1
 
 # crontab requires an empty line at the end of the file
 
