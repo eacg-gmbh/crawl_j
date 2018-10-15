@@ -13,6 +13,7 @@ JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # Clear Maven indexes / caches and force reload!
 0 4 * * * rm -rf /mnt/crawl_indexes/* >> /dev/stdout 2>&1
+1 4 * * * rm -rf /tmp/* >> /dev/stdout 2>&1
 
 # Daily crawlers for Ruby, Python and R
 11 1  * * * /bin/bash -l -c '/usr/bin/java -server -jar /mnt/crawl_j/jcrawler/target/jcrawler-1.0-SNAPSHOT-all.jar -s crawlerRubyGems' >> /dev/stdout 2>&

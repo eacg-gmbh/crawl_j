@@ -15,4 +15,4 @@ export DB_PORT_27017_TCP_PORT=27017
 export DB_PORT_27017_TCP_ADDR=db1.ve.eacg.intern
 export RAILS_ENV=enterprise
 
-/opt/mvn/bin/mvn -f $1 $2 >> /var/log/cron.log 2>&1
+/opt/mvn/bin/mvn -f $1 $2 >> /dev/stdout 2>&1
