@@ -1,7 +1,5 @@
 package versioneye.mojo;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.maven.model.Model;
@@ -15,6 +13,7 @@ import com.versioneye.persistence.IPomDao;
 import versioneye.service.RabbitMqService;
 import versioneye.utils.MavenCentralUtils;
 
+import javax.jms.*;
 import java.util.*;
 
 public class HtmlMojo extends SuperMojo {
@@ -27,7 +26,7 @@ public class HtmlMojo extends SuperMojo {
 
     protected final static String QUEUE_NAME = "html_worker";
     protected Connection connection;
-    protected Channel channel;
+    protected Session producerSession;
     protected IPomDao pomDao;
     protected MavenCentralUtils mavenCentralUtils;
     private Set<String> urls = new HashSet<String>(); // Follow each UEL only once per crawl.
@@ -169,8 +168,18 @@ public class HtmlMojo extends SuperMojo {
                 return ;
             }
             String message = repository.getName() + "::" + urlToPom;
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+            // Create a queue named "MyQueue".
+            Destination producerDestination = producerSession.createQueue(QUEUE_NAME);
+
+            // Create a producer from the session to the queue.
+            MessageProducer producer = producerSession.createProducer(producerDestination);
+            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+
+            // Create a message.
+            TextMessage producerMessage = producerSession.createTextMessage(message);
+
+            // Send the message.
+            producer.send(producerMessage);
             logger.info(" [x] Sent '" + message + "'");
         } catch (Exception exception) {
             logger.error("urlToPom: " + urlToPom + " - " + exception.toString() );
@@ -255,8 +264,9 @@ public class HtmlMojo extends SuperMojo {
             }
             logger.info("RM_PORT_5672_TCP_ADDR: " + rabbitmqAddr + " RM_PORT_5672_TCP_PORT: " + rabbitmqPort);
 
-            connection = RabbitMqService.getConnection(rabbitmqAddr, new Integer(rabbitmqPort));
-            channel = connection.createChannel();
+            connection = RabbitMqService.getProducerConnection(rabbitmqAddr, new Integer(rabbitmqPort));
+            // Create a session.
+            producerSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         } catch (Exception exception){
             logger.error("ERROR in initTheRabbit - " + exception.toString());
             logger.error(exception);
@@ -265,7 +275,7 @@ public class HtmlMojo extends SuperMojo {
 
     protected void closeTheRabbit(){
         try{
-            channel.close();
+            producerSession.close();
             connection.close();
         } catch (Exception exception){
             logger.error("ERROR in closeTheRabbit - " + exception.toString());
