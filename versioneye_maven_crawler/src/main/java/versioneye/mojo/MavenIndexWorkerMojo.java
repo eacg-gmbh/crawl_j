@@ -1,7 +1,5 @@
 package versioneye.mojo;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 import com.versioneye.domain.MavenRepository;
 import com.versioneye.domain.Repository;
 import org.apache.logging.log4j.LogManager;
@@ -13,6 +11,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import versioneye.service.RabbitMqService;
 import versioneye.utils.QueueingConsumer;
 
+import javax.jms.*;
 import java.util.Date;
 import java.util.Properties;
 
@@ -31,27 +30,28 @@ public class MavenIndexWorkerMojo extends AetherMojo {
             username = null;
             password = null;
 
-            Connection connection = initConnection();
-            Channel channel = connection.createChannel();
+            // Create a session.
+            Session consumerSession = initConnection().createSession(false, Session.CLIENT_ACKNOWLEDGE);
 
-            channel.queueDeclare(QUEUE_NAME, true, false, false, null);
-            logger.info(" [*] Waiting for messages. To exit press CTRL+C");
+            // Create a queue named "MyQueue".
+            Destination consumerDestination = consumerSession.createQueue(QUEUE_NAME);
 
-            QueueingConsumer consumer = new QueueingConsumer(channel);
-            channel.basicQos(1);
-            channel.basicConsume(QUEUE_NAME, false, consumer);
+            // Create a message consumer from the session to the queue.
+            MessageConsumer consumer = consumerSession.createConsumer(consumerDestination);
 
             System.out.println("[*] waiting for messages. To exit press CTRL+C");
 
             while(true) {
-                QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-                if(delivery != null) {
-                    String message = new String(delivery.getBody());
+                // Begin to wait for messages.
+                Message consumerMessage = consumer.receive(100000);
+
+                if(consumerMessage != null) {
+                    String message = ((TextMessage) consumerMessage).getText();
                     logger.info(" . ");
                     logger.info(" [x] Received '" + message + "'");
                     processMessage( message );
                     logger.info(" [x] Job done for '" + message + "'");
-                    channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+                    consumerMessage.acknowledge();
                 }
             }
         } catch( Exception exception ){
