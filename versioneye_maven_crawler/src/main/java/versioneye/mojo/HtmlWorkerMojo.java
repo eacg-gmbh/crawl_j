@@ -38,16 +38,24 @@ public class HtmlWorkerMojo extends HtmlMojo {
             System.out.println("[*] waiting for messages. To exit press CTRL+C");
 
             while(true) {
-                // Begin to wait for messages.
-                Message consumerMessage = consumer.receive(100000);
+                try {
 
-                if(consumerMessage != null) {
-                    String message = ((TextMessage) consumerMessage).getText();
-                    logger.info(" . ");
-                    logger.info(" [x] Received '" + message + "'");
-                    processMessage( message );
-                    logger.info(" [x] Job done for '" + message + "'");
-                    consumerMessage.acknowledge();
+                    // Begin to wait for messages.
+                    Message consumerMessage = consumer.receive(100000);
+
+                    if(consumerMessage != null) {
+                        String message = ((TextMessage) consumerMessage).getText();
+                        logger.info(" . ");
+                        logger.info(" [x] Received '" + message + "'");
+                        processMessage( message );
+                        logger.info(" [x] Job done for '" + message + "'");
+                        consumerMessage.acknowledge();
+                    }
+                } catch (JMSException e) {
+                    closeTheRabbit();
+                    initTheRabbit();
+                    logger.info("JMSException: Re-Init ActiveMQ");
+                    logger.info(e);
                 }
             }
         } catch( Exception exception ){

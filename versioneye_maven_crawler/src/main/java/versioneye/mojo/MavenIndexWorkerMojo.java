@@ -31,7 +31,8 @@ public class MavenIndexWorkerMojo extends AetherMojo {
             password = null;
 
             // Create a session.
-            Session consumerSession = initConnection().createSession(false, Session.CLIENT_ACKNOWLEDGE);
+            Connection connection = initConnection();
+            Session consumerSession = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
 
             // Create a queue named "MyQueue".
             Destination consumerDestination = consumerSession.createQueue(QUEUE_NAME);
@@ -42,16 +43,27 @@ public class MavenIndexWorkerMojo extends AetherMojo {
             System.out.println("[*] waiting for messages. To exit press CTRL+C");
 
             while(true) {
-                // Begin to wait for messages.
-                Message consumerMessage = consumer.receive(100000);
+                try {
+                    // Begin to wait for messages.
+                    Message consumerMessage = consumer.receive(100000);
 
-                if(consumerMessage != null) {
-                    String message = ((TextMessage) consumerMessage).getText();
-                    logger.info(" . ");
-                    logger.info(" [x] Received '" + message + "'");
-                    processMessage( message );
-                    logger.info(" [x] Job done for '" + message + "'");
-                    consumerMessage.acknowledge();
+                    if (consumerMessage != null) {
+                        String message = ((TextMessage) consumerMessage).getText();
+                        logger.info(" . ");
+                        logger.info(" [x] Received '" + message + "'");
+                        processMessage(message);
+                        logger.info(" [x] Job done for '" + message + "'");
+                        consumerMessage.acknowledge();
+                    }
+                } catch (JMSException e) {
+                    consumerSession.close();
+                    connection.close();
+                    connection = initConnection();
+                    consumerSession = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+                    consumerDestination = consumerSession.createQueue(QUEUE_NAME);
+                    consumer = consumerSession.createConsumer(consumerDestination);
+                    logger.info("JMSException: Re-Init ActiveMQ");
+                    logger.info(e);
                 }
             }
         } catch( Exception exception ){

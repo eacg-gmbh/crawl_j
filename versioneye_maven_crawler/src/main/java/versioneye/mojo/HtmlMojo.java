@@ -41,7 +41,6 @@ public class HtmlMojo extends SuperMojo {
     }
 
     public void crawl() {
-        initTheRabbit();
         if (repository.getFollowType().equals("text")){
             split1Pattern = "(?i)href=(?=.*['\"])(.*?)(?=.*['\"])>";
             split2Pattern = "<.*";
@@ -54,7 +53,6 @@ public class HtmlMojo extends SuperMojo {
             startPoint = startPoint + "/";
         }
         follow(startPoint);
-        closeTheRabbit();
     }
 
     public void follow(String currentUrl){
@@ -167,6 +165,7 @@ public class HtmlMojo extends SuperMojo {
                 return ;
             }
             String message = repository.getName() + "::" + urlToPom;
+            initTheRabbit();
             // Create a session.
             Session producerSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
@@ -185,6 +184,7 @@ public class HtmlMojo extends SuperMojo {
             logger.info(" [x] Sent '" + message + "'");
             producer.close();
             producerSession.close();
+            closeTheRabbit();
         } catch (Exception exception) {
             logger.error("urlToPom: " + urlToPom + " - " + exception.toString() );
             logger.error(exception);
