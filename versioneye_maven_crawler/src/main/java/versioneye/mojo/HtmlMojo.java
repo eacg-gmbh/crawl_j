@@ -26,7 +26,6 @@ public class HtmlMojo extends SuperMojo {
 
     protected final static String QUEUE_NAME = "html_worker";
     protected Connection connection;
-    protected Session producerSession;
     protected IPomDao pomDao;
     protected MavenCentralUtils mavenCentralUtils;
     private Set<String> urls = new HashSet<String>(); // Follow each UEL only once per crawl.
@@ -168,6 +167,9 @@ public class HtmlMojo extends SuperMojo {
                 return ;
             }
             String message = repository.getName() + "::" + urlToPom;
+            // Create a session.
+            Session producerSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
             // Create a queue named "MyQueue".
             Destination producerDestination = producerSession.createQueue(QUEUE_NAME);
 
@@ -181,6 +183,8 @@ public class HtmlMojo extends SuperMojo {
             // Send the message.
             producer.send(producerMessage);
             logger.info(" [x] Sent '" + message + "'");
+            producer.close();
+            producerSession.close();
         } catch (Exception exception) {
             logger.error("urlToPom: " + urlToPom + " - " + exception.toString() );
             logger.error(exception);
@@ -265,8 +269,6 @@ public class HtmlMojo extends SuperMojo {
             logger.info("RM_PORT_5672_TCP_ADDR: " + rabbitmqAddr + " RM_PORT_5672_TCP_PORT: " + rabbitmqPort);
 
             connection = RabbitMqService.getProducerConnection(rabbitmqAddr, new Integer(rabbitmqPort));
-            // Create a session.
-            producerSession = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         } catch (Exception exception){
             logger.error("ERROR in initTheRabbit - " + exception.toString());
             logger.error(exception);
