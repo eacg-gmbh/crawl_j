@@ -277,7 +277,6 @@ public class HtmlMojo extends SuperMojo {
 
     protected void closeTheRabbit(){
         try{
-            producerSession.close();
             connection.close();
         } catch (Exception exception){
             logger.error("ERROR in closeTheRabbit - " + exception.toString());
