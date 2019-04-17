@@ -15,6 +15,7 @@ import versioneye.utils.MavenCentralUtils;
 
 import javax.jms.*;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class HtmlMojo extends SuperMojo {
 
@@ -232,7 +233,7 @@ public class HtmlMojo extends SuperMojo {
             boolean existAlreadyLowerCase = productDao.doesVersionExistAlreadyByGA( groupId.toLowerCase(), artifactId.toLowerCase(), versionNumber );
             boolean existAlready          = productDao.doesVersionExistAlreadyByGA( groupId, artifactId, versionNumber );
             if (existAlreadyLowerCase || existAlready){
-                logger.info(" --- Exists already: " + groupId + "/" + artifactId + ":" + versionNumber);
+                //logger.info(" --- Exists already: " + groupId + "/" + artifactId + ":" + versionNumber);
                 if (pomDao.existsAlready(urlToPom) == false) {
                     pomDao.create(urlToPom);
                 }
@@ -240,7 +241,7 @@ public class HtmlMojo extends SuperMojo {
             }
 
             if (packaging != null && packaging.equalsIgnoreCase("pom")){
-                logger.info(" --- Skipp parent pom " + urlToPom);
+                //logger.info(" --- Skipp parent pom " + urlToPom);
                 return ;
             }
 
@@ -272,6 +273,11 @@ public class HtmlMojo extends SuperMojo {
         } catch (Exception exception){
             logger.error("ERROR in initTheRabbit - " + exception.toString());
             logger.error(exception);
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 

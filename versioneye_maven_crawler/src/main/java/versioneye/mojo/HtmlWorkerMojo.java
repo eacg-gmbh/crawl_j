@@ -11,6 +11,7 @@ import versioneye.utils.QueueingConsumer;
 
 import javax.jms.*;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 @Mojo( name = "html_worker", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
 public class HtmlWorkerMojo extends HtmlMojo {
@@ -56,6 +57,11 @@ public class HtmlWorkerMojo extends HtmlMojo {
                     initTheRabbit();
                     logger.info("JMSException: Re-Init ActiveMQ");
                     logger.info(e);
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
         } catch( Exception exception ){
