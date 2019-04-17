@@ -1,4 +1,5 @@
-FROM        java:8
+FROM        openjdk:8-stretch
+#FROM        java:8
 MAINTAINER  Robert Reiz <reiz@versioneye.com>
 #crawlj_worker image!!
 
