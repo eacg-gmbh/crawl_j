@@ -152,7 +152,7 @@ public class MavenProjectProcessor {
             dependency.setArtifactId(dep.getArtifactId());
             dependency.setProdType("Maven2");
             dependencyService.createDependencyIfNotExist(dependency);
-            logger.info(" - new dependency: " + dependency.getGroupId() + "/" + dependency.getArtifactId());
+            //logger.info(" - new dependency: " + dependency.getGroupId() + "/" + dependency.getArtifactId());
         } catch (Exception ex){
             logger.error("ERROR in createDepIfNotExist ", ex);
         }
