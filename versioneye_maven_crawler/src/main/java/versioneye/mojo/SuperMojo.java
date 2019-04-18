@@ -150,7 +150,7 @@ public abstract class SuperMojo extends AbstractMojo {
         if (artifact == null)
             return null;
         try {
-            logger.info("Resolving dependencies for " + artifact + " from " + repos);
+            //logger.info("Resolving dependencies for " + artifact + " from " + repos);
             ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();
             descriptorRequest.setArtifact( artifact );
             descriptorRequest.setRepositories( repos );
@@ -201,7 +201,7 @@ public abstract class SuperMojo extends AbstractMojo {
 
     protected MavenProject getProject(Artifact artifact) throws MojoExecutionException, MojoFailureException {
         try {
-            logger.info("build project from file: " + artifact.getFile());
+            //logger.info("build project from file: " + artifact.getFile());
 
             ProjectBuildingRequest projectBuildingRequest = new DefaultProjectBuildingRequest();
             projectBuildingRequest.setLocalRepository(localRepository);

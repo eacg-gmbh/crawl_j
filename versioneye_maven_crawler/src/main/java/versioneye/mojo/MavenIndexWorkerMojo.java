@@ -14,6 +14,7 @@ import versioneye.utils.QueueingConsumer;
 import javax.jms.*;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 
 @Mojo( name = "maven_index_worker", defaultPhase = LifecyclePhase.PROCESS_SOURCES )
@@ -49,10 +50,8 @@ public class MavenIndexWorkerMojo extends AetherMojo {
 
                     if (consumerMessage != null) {
                         String message = ((TextMessage) consumerMessage).getText();
-                        logger.info(" . ");
                         logger.info(" [x] Received '" + message + "'");
                         processMessage(message);
-                        logger.info(" [x] Job done for '" + message + "'");
                         consumerMessage.acknowledge();
                     }
                 } catch (JMSException e) {
@@ -64,6 +63,11 @@ public class MavenIndexWorkerMojo extends AetherMojo {
                     consumer = consumerSession.createConsumer(consumerDestination);
                     logger.info("JMSException: Re-Init ActiveMQ");
                     logger.info(e);
+                    try {
+                        TimeUnit.SECONDS.sleep(2);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
         } catch( Exception exception ){

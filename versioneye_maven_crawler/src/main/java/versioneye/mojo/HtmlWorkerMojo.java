@@ -49,7 +49,7 @@ public class HtmlWorkerMojo extends HtmlMojo {
                         logger.info(" . ");
                         logger.info(" [x] Received '" + message + "'");
                         processMessage( message );
-                        logger.info(" [x] Job done for '" + message + "'");
+                        //logger.info(" [x] Job done for '" + message + "'");
                         consumerMessage.acknowledge();
                     }
                 } catch (JMSException e) {
